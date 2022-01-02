@@ -1,52 +1,92 @@
 const initState = {
-  previous: [],
-  wins: [],
-  fails: [],
+  selectedKind: 'hiragana',
+  wins: {
+    hiragana: [],
+    katakana: [],
+    kanji: [],
+  },
+  fails: {
+    hiragana: [],
+    katakana: [],
+    kanji: [],
+  },
+  previousCounts: {
+    hiragana: {},
+    katakana: {},
+    kanji: {},
+  },
 }
 
-const updateStore = (newStore = {}) => {
-  const oldStore = JSON.parse(localStorage.getItem('katakana_app_data'))
-  localStorage.setItem(
-    'katakana_app_data',
-    JSON.stringify({ ...oldStore, ...newStore })
-  )
+const getStore = () => JSON.parse(localStorage.getItem('katakana_app_data'))
+
+const updateStore = (newStore = {}, force = false) => {
+  if (force) {
+    localStorage.setItem('katakana_app_data', JSON.stringify(newStore))
+  } else {
+    const oldStore = getStore()
+    localStorage.setItem(
+      'katakana_app_data',
+      JSON.stringify(force ? newStore : { ...oldStore, ...newStore })
+    )
+  }
+}
+
+export function getPreviousCounts(kind = 'hiragana') {
+  return getStore().previousCounts[kind]
 }
 
 export function initAppMemory() {
   try {
-    const { previous, wins, fails } = JSON.parse(
-      localStorage.getItem('katakana_app_data')
-    )
-    if (!Array.isArray(previous) || !Array.isArray(wins)) {
-      updateStore(initState)
+    const { previousCounts } = getStore()
+    if (!previousCounts.hiragana) {
+      updateStore(initState, true)
     }
   } catch (e) {
-    updateStore(initState)
+    updateStore(initState, true)
   }
 }
 
-export function addItemToPrevs(answer) {
+export function addItemToPrevs(answer, kind = 'hiragana') {
   try {
-    const { previous } = JSON.parse(localStorage.getItem('katakana_app_data'))
+    const store = getStore()
+    const key = answer.roumaji
+    const currentCount = store.previousCounts
+
     updateStore({
-      previous: [...previous, answer],
+      previousCounts: {
+        ...currentCount,
+        [kind]: {
+          ...currentCount[kind],
+          [key]: (currentCount[kind][key] || 0) + 1,
+        },
+      },
     })
   } catch (e) {
     console.error(e)
   }
 }
 
-export function addWinToStore(win) {
-  const { wins } = JSON.parse(localStorage.getItem('katakana_app_data'))
+export function addWinToStore(win, kind = 'hiragana') {
+  const allwins = getStore().wins
+  const kwins = getStore().wins[kind]
+  const newWin = win.roumaji
   updateStore({
-    wins: [...wins, win],
+    wins: {
+      ...allwins,
+      [kind]: [...kwins, newWin]
+    },
   })
 }
 
-export function addFailToStore(fail) {
-  const { fails } = JSON.parse(localStorage.getItem('katakana_app_data'))
+export function addFailToStore(fail, kind = 'hiragana') {
+  const allfails = getStore().fails
+  const kfails = getStore().fails[kind]
+  const newFail = fail.roumaji
   updateStore({
-    fails: [...fails, fail],
+    fails: {
+      ...allfails,
+      [kind]: [...kfails, newFail]
+    },
   })
 }
 
@@ -58,21 +98,50 @@ export const getShuffledArr = (arr) => {
   return [arr[rand], ...getShuffledArr(arr.filter((_, i) => i != rand))]
 }
 
-export const getPrev = () => {
+export const getPrev = (kind = 'hiragana') => {
   try {
-    const { previous } = JSON.parse(localStorage.getItem('katakana_app_data'))
+    const store = getStore()
+    const previous = kind === 'hiragana' ? store.previousH : store.previousK
     return previous
   } catch (e) {
     console.error(e)
   }
 }
 
-export const getWinsCount = () => {
-  const { wins } = JSON.parse(localStorage.getItem('katakana_app_data'))
+export const getWinsCount = (kind = 'hiragana') => {
+  const wins = getStore().wins[kind]
   return wins.length
 }
 
-export const getFailsCount = () => {
-  const { fails } = JSON.parse(localStorage.getItem('katakana_app_data'))
+export const getFailsCount = (kind = 'hiragana') => {
+  const fails = getStore().fails[kind]
   return fails.length
+}
+
+export const getSelectedKind = () => {
+  return getStore().selectedKind
+}
+
+export const setSelectedKind = (kind) => {
+  updateStore({selectedKind: kind})
+}
+
+export function resetKindData(kind) {
+  const store = getStore()
+  const newStore = {
+    ...store,
+    wins:{
+      ...store.wins,
+      [kind]: []
+    },
+    fails: {
+      ...store.fails,
+      [kind]: []
+    },
+    previousCounts: {
+      ...store.previousCounts,
+      [kind]: {}
+    }
+  }
+  updateStore(newStore, true)
 }

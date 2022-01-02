@@ -6,8 +6,9 @@ body {
   text-align: center;
   background: rgb(218, 218, 218);
   background-image: linear-gradient(rgba(187, 187, 187, 0.13) .1em, transparent .1em), linear-gradient(90deg, rgba(175, 175, 175, 0.13) .1em, transparent .1em);
-  background-size: 5em 5em;
-  padding: 5px;
+  background-size: 8em 8em;
+  background-position: -15px -15px;
+  padding: 3px;
 }
 
 * {
@@ -44,6 +45,47 @@ a {
   color: white;
 }
 
+
+.kind-button {
+  padding: 0.5em;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 13px;
+  margin-top: 0px;
+  border-radius: 10px;
+  border: 0;
+  box-shadow: 3px 3px 0px #0000002e;
+  font-size: 20px;
+  font-weight: bold;
+  padding-left: 1em;
+  padding-right: 1em;
+  color: white;
+  cursor: pointer;
+}
+
+.kind-button.hiragana {
+  background: #559fb6;
+}
+
+
+.kind-button.katakana {
+  background: #df5c83;
+}
+
+
+.kind-button.hiragana:active,
+.kind-button.hiragana:hover {
+  cursor: pointer;
+  background: #488597;
+}
+
+.kind-button.katakana:active,
+.kind-button.katakana:hover {
+  cursor: pointer;
+  background: #ca5377;
+}
+
+
 .roumaji-answer {
   padding: 0.5em;
   margin-left: 10px;
@@ -58,7 +100,9 @@ a {
   padding-right: 1em;
 }
 
+.roumaji-answer:active,
 .roumaji-answer:hover {
+  cursor: pointer;
   background: rgb(228, 228, 228);
 }
 
@@ -89,12 +133,32 @@ h1 {
   font-size: 2em;
 }
 
+.card-header.hiragana {
+  background: rgb(122, 85, 223);
+  background: #559fb6;
+}
+
+.card-header.hiragana.wrong-answer {
+  background: rgb(79, 51, 156);
+  background: #447685;
+}
+
+.card-header.katakana {
+  background: rgb(85, 110, 223);
+  background: #df5c83;
+}
+
+.card-header.katakana.wrong-answer {
+  background: rgb(52, 76, 155);
+  background: #ad4766;
+}
+
 .card-body {
   background: white;
   border-radius: 0px 0px 25px 25px;
   padding: 1.5em;
   padding-top: 2em;
-  padding-bottom: 3em;
+  padding-bottom: 2em;
   font-weight: 700;
 }
 
@@ -103,24 +167,58 @@ hr {
   background: #0000002e;
   height: 0.5px;
   width: 70%;
-  margin-bottom: 2em;
+  margin-bottom: 1.7em;
+  margin-top: 1em;
 }
 
 .wins-container {
-  font-size: 17px;
+  font-size: 2em;
   font-weight: bold;
 }
 
-.wins-label {
-  color: rgb(0, 124, 128);
+.wins-label.hiragana {
+  color: #559fb6;
+}
+
+.wins-label.katakana {
+  color: #df5c83;
 }
 
 .fails-label {
-  color: rgb(255, 0, 119);
+  color: rgba(138, 138, 138, 0.63);
+}
+
+.reset-button {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 18px;
+  border-radius: 5px;
+  border: 0;
+  box-shadow: 3px 3px 0px #0000002e;
+  font-size: 26px;
+  background: rgb(243, 243, 243);
+  padding-left: 1em;
+  padding-right: 1em;
 }
 
 @media screen and (max-width: 630px) {
   .roumaji-answer {
     font-size: calc(14px + 1.4vw);
+  }
+
+  .reset-button {
+    font-size: calc(20px + 1vw);
+  }
+}
+
+@media (hover: hover) {
+  .roumaji-answer:hover {
+    background: rgb(228, 228, 228);
+  }
+
+  .roumaji-answer:disabled:hover {
+    background: rgb(204, 204, 204);
   }
 }

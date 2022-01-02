@@ -5,27 +5,21 @@ import {
   initAppMemory,
   addItemToPrevs,
   addWinToStore,
-  getWinsCount,
-  getFailsCount,
   addFailToStore,
+  getSelectedKind,
+  setSelectedKind,
+  resetKindData,
 } from './core/storage.js'
+import WinCounter from './components/WinCounter.js'
+import AnswerButton from './components/AnswerButton.js'
+import KindButton from './components/KindButton.js'
 
 initAppMemory()
 
-function AnswerButton(props) {
-  return h(
-    'button',
-    {
-      class: 'roumaji-answer' + (props.failed ? ' failed' : ''),
-      onClick: () => props.onClick(props.answer),
-      disabled: props.failed,
-    },
-    props.answer?.roumaji
-  )
-}
-
 function App(props) {
-  const [flashcard, setFlashcard] = useState(getFlashcards())
+  const [kind, setKind] = useState(getSelectedKind())
+  const [difficulty, setDifficulty] = useState(0)
+  const [flashcard, setFlashcard] = useState(getFlashcards(kind, difficulty))
   const [wrongAnswer, setWrongAnswer] = useState(false)
   const { question, answers } = flashcard
   const [failedAnswers, setFailedAnswers] = useState([])
@@ -33,34 +27,55 @@ function App(props) {
   const onAnswerClick = (answer1) => {
     const result = answer(question, answer1)
     if (result) {
-      addItemToPrevs(question)
-      addWinToStore(question)
+      addItemToPrevs(question, kind)
+      addWinToStore(question, kind)
       setWrongAnswer(false)
       setFailedAnswers([])
-      setFlashcard(getFlashcards())
+      setFlashcard(getFlashcards(kind, difficulty))
     } else {
       if (
         failedAnswers &&
         !failedAnswers.some((x) => x.roumaji === answer1.roumaji)
       ) {
         setFailedAnswers([...failedAnswers, answer1])
-        addFailToStore(answer1)
+        addFailToStore(answer1, kind)
       }
       setWrongAnswer(true)
     }
   }
 
+  function onSetKind(kind) {
+    setKind(kind)
+    setSelectedKind(kind)
+    setFlashcard(getFlashcards(kind, difficulty))
+    setWrongAnswer(false)
+  }
+
+  function resetData() {
+    resetKindData(kind)
+    setWrongAnswer(false)
+    setFlashcard(getFlashcards(kind, difficulty))
+  }
+
   return h('div', null, [
-    h('div', { class: 'card' }, [
+    h(KindButton, {
+      onClick: () => onSetKind('hiragana'),
+      kind: 'hiragana'
+    }),
+    h(KindButton, {
+      onClick: () => onSetKind('katakana'),
+      kind: 'katakana'
+    }),
+    h('div', { class: 'card ' + kind }, [
       h(
         'div',
         {
-          class: 'card-header',
-          style: { background: wrongAnswer ? 'rgb(83, 59, 151)' : '' },
+          class:
+            'card-header ' + kind + ' ' + (wrongAnswer ? 'wrong-answer' : ''),
         },
         [h('h1', null, question?.kana)]
       ),
-      h('div', { class: 'card-body' }, [
+      h('div', { class: 'card-body ' + kind }, [
         ...answers.map((x) =>
           h(AnswerButton, {
             onClick: onAnswerClick,
@@ -68,12 +83,10 @@ function App(props) {
             failed: failedAnswers.some((y) => y.roumaji === x.roumaji),
           })
         ),
-
         h('hr'),
-        h('div', {class: 'wins-container'}, [
-          h('span', {class: 'wins-label'}, getWinsCount()),
-          h('span', null, ' - '),
-          h('span', {class: 'fails-label'}, getFailsCount()),
+        h(WinCounter, { kind }),
+        h('button', { class: `reset-button`, onClick: resetData }, [
+          h('span', { role: 'img' }, '💣'),
         ]),
       ]),
     ]),

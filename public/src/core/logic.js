@@ -1,5 +1,7 @@
 import { hiragana, katakana } from '../resources/jp/kanas.js'
-import { getPrev, getShuffledArr } from './storage.js'
+import { getPrev, getShuffledArr, getPreviousCounts } from './storage.js'
+
+const kanas = { hiragana, katakana }
 
 function findDifferent(lst, foundItems) {
   const randIndex5 = Math.floor((Math.random() * 100) % lst.length)
@@ -9,20 +11,6 @@ function findDifferent(lst, foundItems) {
   } else {
     return foundElem
   }
-}
-
-function getPreviousCounts(prevs) {
-  if (!Array.isArray(prevs)) {
-    return []
-  }
-  const prevCounts = prevs.reduce((acc, curr) => {
-    if (acc[curr.roumaji]) {
-      return { ...acc, [curr.roumaji]: acc[curr.roumaji] + 1 }
-    } else {
-      return { ...acc, [curr.roumaji]: 1 }
-    }
-  }, {})
-  return prevCounts
 }
 
 function getCountMin(prevCounts) {
@@ -39,38 +27,40 @@ function getCountMin(prevCounts) {
 }
 
 export function getFlashcards(kanaKind = 'hiragana', difficulty = 0) {
-  if (kanaKind === 'hiragana') {
-    const gojuSubset = hiragana.filter((x) => x.type === 'gojuuon')
+  console.time('time1')
+  const gojuSubset = kanas[kanaKind].filter((x) => x.type === 'gojuuon')
 
-    const prevCount = getPreviousCounts(getPrev())
-    const minCount = getCountMin(prevCount)
+  const prevCount = getPreviousCounts(kanaKind)
+  const minCount = getCountMin(prevCount)
 
-    const rand100 = Math.floor((Math.random() * 100) % 100)
+  const rand100 = Math.floor((Math.random() * 100) % 100)
 
-    const getRandIndex = () => {
-      const matchingMin = gojuSubset.findIndex(
-        (x) => x.roumaji === minCount.key
-      )
-      if (getPrev().length > 3 && matchingMin && rand100 > 50) {
-        return matchingMin
-      } else {
-        return Math.floor((Math.random() * 100) % gojuSubset.length)
-      }
+  const getRandIndex = () => {
+    const matchingMin = gojuSubset.findIndex((x) => x.roumaji === minCount.key)
+    if (Object.keys(prevCount) > 3 && matchingMin && rand100 > 75) {
+      return matchingMin
+    } else {
+      return Math.floor((Math.random() * 100) % gojuSubset.length)
     }
+  }
 
-    const randIndex = getRandIndex()
+  const randIndex = getRandIndex()
+  const selectedList = []
+  const selectedKana = gojuSubset[randIndex]
+  selectedList.push(selectedKana)
 
-    const selectedKana = gojuSubset[randIndex]
-    const selectedFake1 = findDifferent(gojuSubset, [selectedKana])
-    const selectedFake2 = findDifferent(gojuSubset, [
-      selectedKana,
-      selectedFake1,
-    ])
+  const n = 3
+  const arr = [...new Array(n - 1)].map((x, i) => i)
 
-    return {
-      question: selectedKana,
-      answers: getShuffledArr([selectedKana, selectedFake1, selectedFake2]),
-    }
+  arr.forEach((x) => {
+    const selectedFake = findDifferent(gojuSubset, selectedList)
+    selectedList.push(selectedFake)
+  })
+
+  console.timeEnd('time1')
+  return {
+    question: selectedKana,
+    answers: getShuffledArr(selectedList),
   }
 }
 
