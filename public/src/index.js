@@ -1,15 +1,29 @@
 import { h, render } from './resources/libs/preact.js'
-import { useLayoutEffect, useState, useRef } from './resources/libs/preact-hooks.js'
+import {
+  useLayoutEffect,
+  useState,
+  useRef,
+} from './resources/libs/preact-hooks.js'
 import { answer, getFlashcards } from './core/logic.js'
-import { initAppMemory, addItemToPrevs, addWinToStore, getWinsCount, getFailsCount, addFailToStore } from './core/storage.js'
+import {
+  initAppMemory,
+  addItemToPrevs,
+  addWinToStore,
+  getWinsCount,
+  getFailsCount,
+  addFailToStore,
+} from './core/storage.js'
 
 initAppMemory()
 
 function AnswerButton(props) {
-  console.log('props.failed', props.failed)
   return h(
     'button',
-    { class: 'roumaji-answer' + (props.failed ? ' failed' : ''), onClick: () => props.onClick(props.answer), disabled: props.failed },
+    {
+      class: 'roumaji-answer' + (props.failed ? ' failed' : ''),
+      onClick: () => props.onClick(props.answer),
+      disabled: props.failed,
+    },
     props.answer?.roumaji
   )
 }
@@ -29,7 +43,10 @@ function App(props) {
       setFailedAnswers([])
       setFlashcard(getFlashcards())
     } else {
-      if (failedAnswers && !failedAnswers.some(x => x.roumaji === answer1.roumaji)) {
+      if (
+        failedAnswers &&
+        !failedAnswers.some((x) => x.roumaji === answer1.roumaji)
+      ) {
         setFailedAnswers([...failedAnswers, answer1])
         addFailToStore(answer1)
       }
@@ -37,19 +54,24 @@ function App(props) {
     }
   }
 
-  useLayoutEffect(() => {
-  }, [])
+  useLayoutEffect(() => {}, [])
 
   return h('div', {}, [
     h('h1', null, question?.kana),
     h(
       'div',
       null,
-      answers.map((x) => h(AnswerButton, { onClick: onAnswerClick, answer: x, failed: failedAnswers.some(y => y.roumaji === x.roumaji) }))
+      answers.map((x) =>
+        h(AnswerButton, {
+          onClick: onAnswerClick,
+          answer: x,
+          failed: failedAnswers.some((y) => y.roumaji === x.roumaji),
+        })
+      )
     ),
-    h('div', null, "Good: " + getWinsCount()),
-    h('div', null, "Bad: " + getFailsCount()),
-    h('div', null, [wrongAnswer ? h('h3', null, 'Wrong answer') : h('span')])
+    h('div', null, 'Good: ' + getWinsCount()),
+    h('div', null, 'Bad: ' + getFailsCount()),
+    h('div', null, [wrongAnswer ? h('h3', null, 'Wrong answer') : h('span')]),
   ])
 }
 
