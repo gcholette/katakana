@@ -1,0 +1,51 @@
+body {
+  font-family: "Roboto";
+  color: rgb(236, 236, 236);
+  background: linear-gradient(to right, #28adc4, #1da3d8);
+  background-size: cover;
+  text-align: center;
+  text-shadow: 5px 5px 5px rgba(19, 19, 19, 0.493);
+}
+
+* {
+  user-select: none;
+}
+
+*:focus {
+  outline: 0 !important;
+}
+
+*:active {
+  outline: 0 !important;
+}
+
+* {
+  outline: 0 !important;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:active {
+  text-decoration: none;
+}
+
+a:visited {
+  text-decoration: none;
+  color: white;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+.roumaji-answer {
+  margin: 1em;
+  padding: 0.5em;
+}
+
+.failed {
+  background: red;
+}
