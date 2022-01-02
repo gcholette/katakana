@@ -50,10 +50,6 @@ function App(props) {
     }
   }
 
-  useEffect(() => {
-    document.querySelector('.card').drag()
-  }, [])
-
   return h('div', null, [
     h('div', { class: 'card' }, [
       h(
