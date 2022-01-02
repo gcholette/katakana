@@ -70,9 +70,11 @@ function App(props) {
         ),
 
         h('hr'),
-
-        h('div', null, 'Good: ' + getWinsCount()),
-        h('div', null, 'Bad: ' + getFailsCount()),
+        h('div', {class: 'wins-container'}, [
+          h('span', {class: 'wins-label'}, getWinsCount()),
+          h('span', null, ' - '),
+          h('span', {class: 'fails-label'}, getFailsCount()),
+        ]),
       ]),
     ]),
   ])

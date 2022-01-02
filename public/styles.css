@@ -85,15 +85,16 @@ h1 {
   color: white;
   background: rgb(122, 85, 223);
   border-radius: 25px 25px 0px 0px;
-  padding: 2em;
+  padding: 1.7em;
   font-size: 2em;
 }
 
 .card-body {
   background: white;
   border-radius: 0px 0px 25px 25px;
-  padding: 3em;
+  padding: 1.5em;
   padding-top: 2em;
+  padding-bottom: 3em;
   font-weight: 700;
 }
 
@@ -101,5 +102,25 @@ hr {
   border: black 0px solid;
   background: #0000002e;
   height: 0.5px;
+  width: 70%;
   margin-bottom: 2em;
+}
+
+.wins-container {
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.wins-label {
+  color: rgb(0, 124, 128);
+}
+
+.fails-label {
+  color: rgb(255, 0, 119);
+}
+
+@media screen and (max-width: 630px) {
+  .roumaji-answer {
+    font-size: calc(14px + 1.4vw);
+  }
 }
