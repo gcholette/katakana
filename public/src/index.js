@@ -1,9 +1,5 @@
 import { h, render } from './resources/libs/preact.js'
-import {
-  useLayoutEffect,
-  useState,
-  useRef,
-} from './resources/libs/preact-hooks.js'
+import { useEffect, useState, useRef } from './resources/libs/preact-hooks.js'
 import { answer, getFlashcards } from './core/logic.js'
 import {
   initAppMemory,
@@ -54,24 +50,35 @@ function App(props) {
     }
   }
 
-  useLayoutEffect(() => {}, [])
+  useEffect(() => {
+    document.querySelector('.card').drag()
+  }, [])
 
-  return h('div', {}, [
-    h('h1', null, question?.kana),
-    h(
-      'div',
-      null,
-      answers.map((x) =>
-        h(AnswerButton, {
-          onClick: onAnswerClick,
-          answer: x,
-          failed: failedAnswers.some((y) => y.roumaji === x.roumaji),
-        })
-      )
-    ),
-    h('div', null, 'Good: ' + getWinsCount()),
-    h('div', null, 'Bad: ' + getFailsCount()),
-    h('div', null, [wrongAnswer ? h('h3', null, 'Wrong answer') : h('span')]),
+  return h('div', null, [
+    h('div', { class: 'card' }, [
+      h(
+        'div',
+        {
+          class: 'card-header',
+          style: { background: wrongAnswer ? 'rgb(83, 59, 151)' : '' },
+        },
+        [h('h1', null, question?.kana)]
+      ),
+      h('div', { class: 'card-body' }, [
+        ...answers.map((x) =>
+          h(AnswerButton, {
+            onClick: onAnswerClick,
+            answer: x,
+            failed: failedAnswers.some((y) => y.roumaji === x.roumaji),
+          })
+        ),
+
+        h('hr'),
+
+        h('div', null, 'Good: ' + getWinsCount()),
+        h('div', null, 'Bad: ' + getFailsCount()),
+      ]),
+    ]),
   ])
 }
 
