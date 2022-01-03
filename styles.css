@@ -325,7 +325,7 @@ hr {
   border: 0;
   box-shadow: 3px 3px 0px #0000002e;
   font-size: 26px;
-  background: rgb(243, 243, 243);
+  background: rgb(233, 233, 233);
   padding-left: 1em;
   padding-right: 1em;
   transition: box-shadow 0.8s ease, background 0.5s ease, color 0.5s ease;
