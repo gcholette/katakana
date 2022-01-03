@@ -77,51 +77,56 @@ function App() {
     setFlashcard(getFlashcards(kind, +value))
   }
 
-
   return h('div', { class: themedClass('app-container') }, [
-    h(KindButton, {
-      onClick: () => onSetKind('hiragana'),
-      kind: 'hiragana',
-    }),
-    h(KindButton, {
-      onClick: () => onSetKind('katakana'),
-      kind: 'katakana',
-    }),
-    h(
-      'button',
-      { class: themedClass('dark-theme-button'), onClick: onDarkThemeToggle },
-      !isDarkMode() ? '🌙' : '☀️'
-    ),
-    h('br'),
-    h(DifficultyScale, { difficulty, onRangeChange }),
-    h('div', { class: themedClass('card ' + kind) }, [
+    h('div', {style: 'flex 0 1'}, [
+      h(KindButton, {
+        onClick: () => onSetKind('hiragana'),
+        kind: 'hiragana',
+      }),
+      h(KindButton, {
+        onClick: () => onSetKind('katakana'),
+        kind: 'katakana',
+      }),
       h(
-        'div',
-        {
-          class: themedClass(
-            'card-header ' + kind + ' ' + (wrongAnswer ? 'wrong-answer' : '')
-          ),
-        },
-        [h('h1', null, question?.kana)]
+        'button',
+        { class: themedClass('dark-theme-button'), onClick: onDarkThemeToggle },
+        !isDarkMode() ? '🌙' : '☀️'
       ),
-      h('div', { class: themedClass('card-body ' + kind) }, [
-        ...answers.map((x) =>
-          h(AnswerButton, {
-            onClick: onAnswerClick,
-            answer: x,
-            failed: failedAnswers.some((y) => y.roumaji === x.roumaji),
-          })
-        ),
-        h('hr', { class: themedClass('') }),
-        h(WinCounter, { kind }),
+      h('br'),
+      h(DifficultyScale, { difficulty, onRangeChange }),
+      h('div', { class: themedClass('card ' + kind) }, [
         h(
-          'button',
-          { class: themedClass(`reset-button`), onClick: resetData },
-          [h('span', { role: 'img' }, '💣')]
+          'div',
+          {
+            class: themedClass(
+              'card-header ' + kind + ' ' + (wrongAnswer ? 'wrong-answer' : '')
+            ),
+          },
+          [h('h1', null, question?.kana)]
         ),
+        h('div', { class: themedClass('card-body ' + kind) }, [
+          ...answers.map((x) =>
+            h(AnswerButton, {
+              onClick: onAnswerClick,
+              answer: x,
+              failed: failedAnswers.some((y) => y.roumaji === x.roumaji),
+            })
+          ),
+          h('hr', { class: themedClass('') }),
+          h(WinCounter, { kind }),
+          h(
+            'button',
+            { class: themedClass(`reset-button`), onClick: resetData },
+            [h('span', { role: 'img' }, '💣')]
+          ),
+        ]),
       ]),
     ]),
+    h(
+      'footer',
+      { class: themedClass('license') },
+      h('span', null, '© 2022 Gabriel Cholette-Rioux')
+    ),
   ])
 }
-
 render(h(App), document.body)

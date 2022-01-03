@@ -22,6 +22,8 @@ body {
   height: 100vh;
   padding-left: 1.2em;
   padding-right: 1.2em;
+  display: flex;
+  flex-direction: column;
 }
 
 .app-container.dark {
@@ -192,7 +194,7 @@ h1 {
   color: white;
   background: rgb(122, 85, 223);
   border-radius: 25px 25px 0px 0px;
-  padding: 1.7em;
+  padding: calc(1.0em + 2vh);
   font-size: 2em;
   transition: background 0.5s ease, color 0.5s ease;
 }
@@ -250,7 +252,7 @@ h1 {
 
 hr {
   border: black 0px solid;
-  background: #0000002e;
+  background: #0000001c;
   height: 0.5px;
   width: 70%;
   margin-bottom: 1.7em;
@@ -305,6 +307,22 @@ hr {
 
 .range-icon {
   font-size: 20px;
+}
+
+.license {
+  transition: color 0.5s ease;
+  flex: 1 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  font-size: 13px;
+  padding-bottom: 4px;
+  color: rgba(148, 148, 148, 0.582);
+}
+
+.license.dark {
+  color: rgba(73, 73, 73, 0.664);
+
 }
 
 @media screen and (max-width: 630px) {
