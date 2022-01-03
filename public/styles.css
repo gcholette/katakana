@@ -24,10 +24,16 @@ body {
   padding-right: 1.2em;
   display: flex;
   flex-direction: column;
+  background-image: linear-gradient(rgba(187, 187, 187, 0.13) .1em, transparent .1em), linear-gradient(90deg, rgba(175, 175, 175, 0.13) .1em, transparent .1em);
+  background-size: 7em 7em;
+  background-position: -14px -24px;
 }
 
 .app-container.dark {
   background: rgb(24, 21, 29);
+  background-image: linear-gradient(rgba(187, 187, 187, 0.014) 0.1em, transparent 0.1em), linear-gradient(90deg, rgba(175, 175, 175, 0.014) 0.1em, transparent 0.1em);
+  background-size: 7em 7em;
+  background-position: -24px -34px;
   color: white;
 }
 
@@ -61,12 +67,12 @@ a:active {
 
 a:visited {
   text-decoration: none;
-  color: white;
+  color: inherit!important;
 }
 
 a {
   text-decoration: none;
-  color: white;
+  color: inherit!important;
 }
 
 .kind-button {
@@ -135,6 +141,15 @@ a {
   background: rgb(45, 39, 53);
 }
 
+.moon-btn {
+  position: absolute;
+  top: 13px;
+  font-size: 22px;
+  right: 13px;
+  color: black;
+  filter: brightness(0);
+  opacity: 0.3;
+}
 
 
 hr.dark {
@@ -150,7 +165,7 @@ hr.dark {
   border: 0;
   box-shadow: 3px 3px 0px #0000002e;
   font-size: 24px;
-  background: rgb(243, 243, 243);
+  background: rgb(233, 233, 233);
   padding-left: 1em;
   padding-right: 1em;
   transition: box-shadow 0.8s ease, background 0.5s ease, color 0.5s ease;
@@ -178,6 +193,29 @@ h1 {
   margin: 0;
 }
 
+.top-card {
+  max-width: 400px;
+  margin: 0 auto;
+  border-radius: 25px;
+  box-shadow: 8px 11px 0px #0000002e;
+  margin-bottom: 1.5em;
+  margin-top: 1em;
+}
+
+.top-card-body {
+  background: rgb(243, 243, 243);
+  border-radius: 25px;
+  padding: 1em;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  transition: background 0.5s ease, color 0.5s ease;
+  position: relative;
+}
+
+.top-card-body.dark {
+  background: rgb(37, 32, 43);
+}
+
 .card {
   max-width: 400px;
   margin: 0 auto;
@@ -197,6 +235,7 @@ h1 {
   padding: calc(1.0em + 2vh);
   font-size: 2em;
   transition: background 0.5s ease, color 0.5s ease;
+  position: relative;
 }
 
 .card-header.wins-label.hiragana {
@@ -237,7 +276,7 @@ h1 {
 }
 
 .card-body {
-  background: white;
+  background: rgb(241, 241, 241);
   border-radius: 0px 0px 25px 25px;
   padding: 1em;
   padding-top: 2em;
@@ -247,7 +286,7 @@ h1 {
 }
 
 .card-body.dark {
-  background: rgb(31, 27, 36);
+  background: rgb(35, 31, 41);
 }
 
 hr {
@@ -255,8 +294,8 @@ hr {
   background: #0000001c;
   height: 0.5px;
   width: 70%;
-  margin-bottom: 1.7em;
-  margin-top: 1em;
+  margin-bottom: 1.2em;
+  margin-top: 0.5em;
 }
 
 .wins-container {
@@ -303,6 +342,7 @@ hr {
 
 .diff-range {
   width: 170px;
+  height: 13px;
 }
 
 .range-icon {
@@ -318,6 +358,7 @@ hr {
   font-size: 13px;
   padding-bottom: 4px;
   color: rgba(148, 148, 148, 0.582);
+  font-family: 'Courier New', Courier, monospace;
 }
 
 .license.dark {
@@ -336,7 +377,7 @@ hr {
 }
 
 .hoverable.roumaji-answer:hover {
-  background: rgb(228, 228, 228);
+  background: rgb(158, 158, 158);
 }
 
 .hoverable.roumaji-answer:disabled:hover {
@@ -353,7 +394,7 @@ hr {
 
 .hoverable.roumaji-answer:hover {
   cursor: pointer;
-  background: rgb(228, 228, 228);
+  background: rgb(219, 219, 219);
 }
 
 .hoverable.roumaji-answer.dark:hover {

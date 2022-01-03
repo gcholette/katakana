@@ -78,22 +78,28 @@ function App() {
   }
 
   return h('div', { class: themedClass('app-container') }, [
-    h('div', {style: 'flex 0 1'}, [
-      h(KindButton, {
-        onClick: () => onSetKind('hiragana'),
-        kind: 'hiragana',
-      }),
-      h(KindButton, {
-        onClick: () => onSetKind('katakana'),
-        kind: 'katakana',
-      }),
+    h('div', { style: 'flex 0 1' }, [
       h(
-        'button',
-        { class: themedClass('dark-theme-button'), onClick: onDarkThemeToggle },
-        !isDarkMode() ? '🌙' : '☀️'
+        'div',
+        { class: themedClass('top-card') },
+        h('div', { class: themedClass('top-card-body') }, [
+          h(KindButton, {
+            onClick: () => onSetKind('hiragana'),
+            kind: 'hiragana',
+          }),
+          h(KindButton, {
+            onClick: () => onSetKind('katakana'),
+            kind: 'katakana',
+          }),
+          h('br'),
+          h(DifficultyScale, { difficulty, onRangeChange }),
+          h(
+            'span',
+            { class: themedClass('moon-btn'), onClick: onDarkThemeToggle },
+            isDarkMode() ? '🌙' : '☀️'
+          ),
+        ])
       ),
-      h('br'),
-      h(DifficultyScale, { difficulty, onRangeChange }),
       h('div', { class: themedClass('card ' + kind) }, [
         h(
           'div',
@@ -117,7 +123,7 @@ function App() {
           h(
             'button',
             { class: themedClass(`reset-button`), onClick: resetData },
-            [h('span', { role: 'img' }, '💣')]
+            [h('span', { role: 'img', class: 'reset-btn-icon' }, '💣')]
           ),
         ]),
       ]),
@@ -125,7 +131,7 @@ function App() {
     h(
       'footer',
       { class: themedClass('license') },
-      h('span', null, '© 2022 Gabriel Cholette-Rioux')
+      h('a', { href: 'https://gcholette.com'}, '© 2022 Gabriel Cholette-Rioux')
     ),
   ])
 }
