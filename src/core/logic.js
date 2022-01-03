@@ -12,13 +12,13 @@ const getDifficultySubset = (lst, diff) => {
     case 2:
       return lst.filter((x, i) => x.type === 'gojuuon')
     case 3:
-      return lst.filter((x, i) => x.type === 'gojuuon' || x.type == 'dakuon' || x.type === 'handakuon')
+      return lst.filter((x, i) => x.type == 'dakuon' || x.type === 'handakuon')
     case 4:
       return lst.filter((x) => x.type === 'handakuon' || x.type === 'dakuon' || x.type === 'youon')
     case 5:
-      return lst.filter((x, i) => x.type === 'extended' || x.type === 'youon')
+      return lst.filter((x, i) => (x.type === 'extended' || x.type === 'youon') && i < 135)
     case 6:
-      return lst.filter((x) => x.type !== 'sokuon')
+      return lst.filter((x) => x.type === 'extended' || x.type === 'youon')
   }
 }
 
@@ -49,6 +49,7 @@ export function getFlashcards(kanaKind = 'hiragana', difficulty = 0) {
   const list = kanas[kanaKind]
 
   const gojuSubset = getDifficultySubset(list, difficulty)
+  console.log('subset', gojuSubset)
 
   const prevCount = getPreviousCounts(kanaKind)
   const minCount = getCountMin(prevCount)
