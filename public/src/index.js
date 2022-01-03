@@ -11,22 +11,21 @@ import {
   resetKindData,
   setDarkMode,
   isDarkMode,
+  changeDifficulty,
+  getDifficulty,
 } from './core/storage.js'
 import WinCounter from './components/WinCounter.js'
 import AnswerButton from './components/AnswerButton.js'
 import KindButton from './components/KindButton.js'
 import { themedClass } from './core/theme.js'
-
-function isTouchDevice(){
-    return window.ontouchstart !== undefined;
-}
+import DifficultyScale from './components/DifficultyScale.js'
 
 initAppMemory()
 
 function App() {
   const [, forceRender] = useState({})
   const [kind, setKind] = useState(getSelectedKind())
-  const [difficulty, setDifficulty] = useState(0)
+  const [difficulty, setDifficulty] = useState(getDifficulty(kind))
   const [flashcard, setFlashcard] = useState(getFlashcards(kind, difficulty))
   const [wrongAnswer, setWrongAnswer] = useState(false)
   const { question, answers } = flashcard
@@ -52,10 +51,11 @@ function App() {
     }
   }
 
-  function onSetKind(kind) {
-    setKind(kind)
-    setSelectedKind(kind)
-    setFlashcard(getFlashcards(kind, difficulty))
+  function onSetKind(kind1) {
+    setKind(kind1)
+    setSelectedKind(kind1)
+    setDifficulty(getDifficulty(kind1))
+    setFlashcard(getFlashcards(kind1, difficulty))
     setWrongAnswer(false)
   }
 
@@ -69,6 +69,14 @@ function App() {
     setDarkMode(!isDarkMode())
     forceRender({})
   }
+
+  function onRangeChange(e) {
+    const value = e.target.value
+    changeDifficulty(+value, kind)
+    setDifficulty(+value)
+    setFlashcard(getFlashcards(kind, +value))
+  }
+
 
   return h('div', { class: themedClass('app-container') }, [
     h(KindButton, {
@@ -84,6 +92,8 @@ function App() {
       { class: themedClass('dark-theme-button'), onClick: onDarkThemeToggle },
       !isDarkMode() ? '🌙' : '☀️'
     ),
+    h('br'),
+    h(DifficultyScale, { difficulty, onRangeChange }),
     h('div', { class: themedClass('card ' + kind) }, [
       h(
         'div',

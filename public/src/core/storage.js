@@ -1,6 +1,11 @@
 const initState = {
   isDarkMode: true,
   selectedKind: 'hiragana',
+  difficulty: {
+    katakana: 0,
+    hiragana: 0,
+    kanji: 0,
+  },
   wins: {
     hiragana: [],
     katakana: [],
@@ -18,7 +23,14 @@ const initState = {
   },
 }
 
-const getStore = () => JSON.parse(localStorage.getItem('katakana_app_data'))
+const getStore = () => {
+  try {
+    return JSON.parse(localStorage.getItem('katakana_app_data'))
+  } catch (e) {
+    initAppMemory(true)
+    return JSON.parse(localStorage.getItem('katakana_app_data'))
+  }
+}
 
 const updateStore = (newStore = {}, force = false) => {
   if (force) {
@@ -36,7 +48,10 @@ export function getPreviousCounts(kind = 'hiragana') {
   return getStore().previousCounts[kind]
 }
 
-export function initAppMemory() {
+export function initAppMemory(force = false) {
+  if (force) {
+    return updateStore(initState, true)
+  }
   try {
     const { previousCounts } = getStore()
     if (!previousCounts.hiragana) {
@@ -74,7 +89,7 @@ export function addWinToStore(win, kind = 'hiragana') {
   updateStore({
     wins: {
       ...allwins,
-      [kind]: [...kwins, newWin]
+      [kind]: [...kwins, newWin],
     },
   })
 }
@@ -86,7 +101,16 @@ export function addFailToStore(fail, kind = 'hiragana') {
   updateStore({
     fails: {
       ...allfails,
-      [kind]: [...kfails, newFail]
+      [kind]: [...kfails, newFail],
+    },
+  })
+}
+
+export function changeDifficulty(diff, kind = 'hiragana') {
+  updateStore({
+    difficulty: {
+      ...getStore().difficulty,
+      [kind]: diff,
     },
   })
 }
@@ -119,6 +143,10 @@ export const getFailsCount = (kind = 'hiragana') => {
   return fails.length
 }
 
+export const getDifficulty = (kind = 'hiragana') => {
+  return getStore().difficulty[kind]
+}
+
 export const getSelectedKind = () => {
   return getStore().selectedKind
 }
@@ -128,29 +156,29 @@ export const isDarkMode = () => {
 }
 
 export const setDarkMode = (truth) => {
-  updateStore({isDarkMode: truth})
+  updateStore({ isDarkMode: truth })
 }
 
 export const setSelectedKind = (kind) => {
-  updateStore({selectedKind: kind})
+  updateStore({ selectedKind: kind })
 }
 
 export function resetKindData(kind) {
   const store = getStore()
   const newStore = {
     ...store,
-    wins:{
+    wins: {
       ...store.wins,
-      [kind]: []
+      [kind]: [],
     },
     fails: {
       ...store.fails,
-      [kind]: []
+      [kind]: [],
     },
     previousCounts: {
       ...store.previousCounts,
-      [kind]: {}
-    }
+      [kind]: {},
+    },
   }
   updateStore(newStore, true)
 }

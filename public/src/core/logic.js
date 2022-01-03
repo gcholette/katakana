@@ -1,7 +1,26 @@
 import { hiragana, katakana } from '../resources/jp/kanas.js'
-import { getPrev, getShuffledArr, getPreviousCounts } from './storage.js'
+import { getShuffledArr, getPreviousCounts } from './storage.js'
 
 const kanas = { hiragana, katakana }
+
+const getDifficultySubset = (lst, diff) => {
+  switch (diff) {
+    case 0:
+      return lst.filter((x, i) => x.type === 'gojuuon' && i < 9)
+    case 1:
+      return lst.filter((x, i) => x.type === 'gojuuon' && i < 29)
+    case 2:
+      return lst.filter((x, i) => x.type === 'gojuuon')
+    case 3:
+      return lst.filter((x, i) => x.type === 'gojuuon' || x.type == 'dakuon' || x.type === 'handakuon')
+    case 4:
+      return lst.filter((x) => x.type === 'handakuon' || x.type === 'dakuon' || x.type === 'youon')
+    case 5:
+      return lst.filter((x, i) => x.type === 'extended' || x.type === 'youon')
+    case 6:
+      return lst.filter((x) => x.type !== 'sokuon')
+  }
+}
 
 function findDifferent(lst, foundItems) {
   const randIndex5 = Math.floor((Math.random() * 100) % lst.length)
@@ -27,7 +46,9 @@ function getCountMin(prevCounts) {
 }
 
 export function getFlashcards(kanaKind = 'hiragana', difficulty = 0) {
-  const gojuSubset = kanas[kanaKind].filter((x) => x.type === 'gojuuon')
+  const list = kanas[kanaKind]
+
+  const gojuSubset = getDifficultySubset(list, difficulty)
 
   const prevCount = getPreviousCounts(kanaKind)
   const minCount = getCountMin(prevCount)
