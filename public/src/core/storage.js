@@ -1,4 +1,5 @@
 const initState = {
+  isDarkMode: true,
   selectedKind: 'hiragana',
   wins: {
     hiragana: [],
@@ -120,6 +121,14 @@ export const getFailsCount = (kind = 'hiragana') => {
 
 export const getSelectedKind = () => {
   return getStore().selectedKind
+}
+
+export const isDarkMode = () => {
+  return getStore().isDarkMode
+}
+
+export const setDarkMode = (truth) => {
+  updateStore({isDarkMode: truth})
 }
 
 export const setSelectedKind = (kind) => {

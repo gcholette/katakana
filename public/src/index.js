@@ -9,14 +9,22 @@ import {
   getSelectedKind,
   setSelectedKind,
   resetKindData,
+  setDarkMode,
+  isDarkMode,
 } from './core/storage.js'
 import WinCounter from './components/WinCounter.js'
 import AnswerButton from './components/AnswerButton.js'
 import KindButton from './components/KindButton.js'
+import { themedClass } from './core/theme.js'
+
+function isTouchDevice(){
+    return window.ontouchstart !== undefined;
+}
 
 initAppMemory()
 
-function App(props) {
+function App() {
+  const [, forceRender] = useState({})
   const [kind, setKind] = useState(getSelectedKind())
   const [difficulty, setDifficulty] = useState(0)
   const [flashcard, setFlashcard] = useState(getFlashcards(kind, difficulty))
@@ -57,25 +65,36 @@ function App(props) {
     setFlashcard(getFlashcards(kind, difficulty))
   }
 
-  return h('div', null, [
+  function onDarkThemeToggle() {
+    setDarkMode(!isDarkMode())
+    forceRender({})
+  }
+
+  return h('div', { class: themedClass('app-container') }, [
     h(KindButton, {
       onClick: () => onSetKind('hiragana'),
-      kind: 'hiragana'
+      kind: 'hiragana',
     }),
     h(KindButton, {
       onClick: () => onSetKind('katakana'),
-      kind: 'katakana'
+      kind: 'katakana',
     }),
-    h('div', { class: 'card ' + kind }, [
+    h(
+      'button',
+      { class: themedClass('dark-theme-button'), onClick: onDarkThemeToggle },
+      !isDarkMode() ? '🌙' : '☀️'
+    ),
+    h('div', { class: themedClass('card ' + kind) }, [
       h(
         'div',
         {
-          class:
-            'card-header ' + kind + ' ' + (wrongAnswer ? 'wrong-answer' : ''),
+          class: themedClass(
+            'card-header ' + kind + ' ' + (wrongAnswer ? 'wrong-answer' : '')
+          ),
         },
         [h('h1', null, question?.kana)]
       ),
-      h('div', { class: 'card-body ' + kind }, [
+      h('div', { class: themedClass('card-body ' + kind) }, [
         ...answers.map((x) =>
           h(AnswerButton, {
             onClick: onAnswerClick,
@@ -83,11 +102,13 @@ function App(props) {
             failed: failedAnswers.some((y) => y.roumaji === x.roumaji),
           })
         ),
-        h('hr'),
+        h('hr', { class: themedClass('') }),
         h(WinCounter, { kind }),
-        h('button', { class: `reset-button`, onClick: resetData }, [
-          h('span', { role: 'img' }, '💣'),
-        ]),
+        h(
+          'button',
+          { class: themedClass(`reset-button`), onClick: resetData },
+          [h('span', { role: 'img' }, '💣')]
+        ),
       ]),
     ]),
   ])

@@ -1,14 +1,35 @@
+html {
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+}
+
 body {
+  min-height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.app-container {
   font-family: "Roboto";
   color: rgb(24, 24, 24);
-  background: linear-gradient(to right, #28adc4, #1da3d8);
   background-size: cover;
   text-align: center;
   background: rgb(218, 218, 218);
-  background-image: linear-gradient(rgba(187, 187, 187, 0.13) .1em, transparent .1em), linear-gradient(90deg, rgba(175, 175, 175, 0.13) .1em, transparent .1em);
-  background-size: 8em 8em;
-  background-position: -15px -15px;
-  padding: 3px;
+  transition: background 0.5s ease, color 0.5s ease;
+  min-height: 600px;
+  height: 100vh;
+  padding-left: 1.2em;
+  padding-right: 1.2em;
+}
+
+.app-container.dark {
+  background: rgb(24, 21, 29);
+  color: white;
+}
+
+.dark {
+  transition: background 0.5s ease, color 0.5s ease;
 }
 
 * {
@@ -45,13 +66,12 @@ a {
   color: white;
 }
 
-
 .kind-button {
   padding: 0.5em;
   margin-left: 10px;
   margin-right: 10px;
-  margin-bottom: 13px;
-  margin-top: 0px;
+  margin-bottom: 17px;
+  margin-top: 1em;
   border-radius: 10px;
   border: 0;
   box-shadow: 3px 3px 0px #0000002e;
@@ -61,30 +81,62 @@ a {
   padding-right: 1em;
   color: white;
   cursor: pointer;
+  transition: box-shadow 0.8s ease, background 0.5s ease, color 0.5s ease;
+}
+
+.kind-button.dark {
+  box-shadow: 3px 3px 0px #00000080;
 }
 
 .kind-button.hiragana {
   background: #559fb6;
 }
 
+.kind-button.hiragana.dark {
+  background: #427d8f;
+}
+
+.kind-button.wins-label.hiragana .dark {
+  background: #407788;
+}
 
 .kind-button.katakana {
   background: #df5c83;
 }
 
-
-.kind-button.hiragana:active,
-.kind-button.hiragana:hover {
-  cursor: pointer;
-  background: #488597;
+.kind-button.katakana.dark {
+  background: #cc5377;
 }
 
-.kind-button.katakana:active,
-.kind-button.katakana:hover {
-  cursor: pointer;
-  background: #ca5377;
+.dark-theme-button {
+  padding: 0.5em;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 1em;
+  border-radius: 10px;
+  border: 0;
+  box-shadow: 3px 3px 0px #0000002e;
+  font-size: 20px;
+  background: rgb(238, 238, 238);
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-bottom: 13px;
+  transition: box-shadow 0.8s ease, background 0.5s ease, color 0.5s ease;
+  position: absolute;
+  right: 4px;
+  top: 20px;
 }
 
+.dark-theme-button.dark {
+  box-shadow: 3px 3px 0px #00000088;
+  background: rgb(45, 39, 53);
+}
+
+
+
+hr.dark {
+  background: #f5f5f52b;
+}
 
 .roumaji-answer {
   padding: 0.5em;
@@ -98,16 +150,21 @@ a {
   background: rgb(243, 243, 243);
   padding-left: 1em;
   padding-right: 1em;
+  transition: box-shadow 0.8s ease, background 0.5s ease, color 0.5s ease;
 }
 
-.roumaji-answer:active,
-.roumaji-answer:hover {
-  cursor: pointer;
-  background: rgb(228, 228, 228);
+.roumaji-answer.dark {
+  box-shadow: 3px 3px 0px #00000080;
 }
 
-.roumaji-answer:disabled:hover {
-  background: rgb(204, 204, 204);
+.roumaji-answer.dark {
+  background: rgb(81, 76, 88);
+  color: rgb(219, 219, 219);
+}
+
+.roumaji-answer.dark:disabled {
+  background: rgb(36, 34, 39);
+  color: rgb(83, 83, 83);
 }
 
 .failed {
@@ -125,26 +182,45 @@ h1 {
   box-shadow: 8px 11px 0px #0000002e;
 }
 
+.card.dark {
+  box-shadow: 8px 11px 0px #00000063;
+  transition: box-shadow 0.5s ease;
+}
+
 .card-header {
   color: white;
   background: rgb(122, 85, 223);
   border-radius: 25px 25px 0px 0px;
   padding: 1.7em;
   font-size: 2em;
+  transition: background 0.5s ease, color 0.5s ease;
+}
+
+.card-header.wins-label.hiragana {
+  background: #376877;
+}
+
+.card-header.hiragana.dark {
+  background: #417a8b;
+}
+
+.card-header.katakana.dark {
+  background: #cc4d73;
 }
 
 .card-header.hiragana {
-  background: rgb(122, 85, 223);
   background: #559fb6;
 }
 
 .card-header.hiragana.wrong-answer {
-  background: rgb(79, 51, 156);
-  background: #447685;
+  background: #44707e;
+}
+
+.card-header.hiragana.wrong-answer.dark {
+  background: #20414b;
 }
 
 .card-header.katakana {
-  background: rgb(85, 110, 223);
   background: #df5c83;
 }
 
@@ -153,13 +229,22 @@ h1 {
   background: #ad4766;
 }
 
+.card-header.katakana.wrong-answer.dark {
+  background: #7a2942;
+}
+
 .card-body {
   background: white;
   border-radius: 0px 0px 25px 25px;
-  padding: 1.5em;
+  padding: 1em;
   padding-top: 2em;
   padding-bottom: 2em;
   font-weight: 700;
+  transition: background 0.5s ease, color 0.5s ease;
+}
+
+.card-body.dark {
+  background: rgb(31, 27, 36);
 }
 
 hr {
@@ -201,6 +286,12 @@ hr {
   background: rgb(243, 243, 243);
   padding-left: 1em;
   padding-right: 1em;
+  transition: box-shadow 0.8s ease, background 0.5s ease, color 0.5s ease;
+}
+
+.reset-button.dark {
+  box-shadow: 3px 3px 0px #00000080;
+  background: rgb(64, 60, 70);
 }
 
 @media screen and (max-width: 630px) {
@@ -213,12 +304,64 @@ hr {
   }
 }
 
-@media (hover: hover) {
-  .roumaji-answer:hover {
-    background: rgb(228, 228, 228);
-  }
+.hoverable.roumaji-answer:hover {
+  background: rgb(228, 228, 228);
+}
 
-  .roumaji-answer:disabled:hover {
-    background: rgb(204, 204, 204);
-  }
+.hoverable.roumaji-answer:disabled:hover {
+  background: rgb(204, 204, 204);
+}
+
+.hoverable.roumaji-answer:disabled:hover {
+  background: rgb(204, 204, 204);
+}
+
+.hoverable.roumaji-answer.dark:disabled:hover {
+  background: rgb(36, 33, 39);
+}
+
+.hoverable.roumaji-answer:hover {
+  cursor: pointer;
+  background: rgb(228, 228, 228);
+}
+
+.hoverable.roumaji-answer.dark:hover {
+  cursor: pointer;
+  background: rgb(59, 53, 61);
+}
+
+.hoverable.kind-button.hiragana:hover {
+  cursor: pointer;
+  background: #488597;
+}
+
+.hoverable.kind-button.katakana:hover {
+  cursor: pointer;
+  background: #ca5377;
+}
+
+.hoverable.kind-button.hiragana.dark:hover {
+  cursor: pointer;
+  background: #3a6674;
+}
+
+.hoverable.kind-button.katakana.dark:hover {
+  cursor: pointer;
+  background: #aa4866;
+}
+
+.hoverable.reset-button:hover {
+  cursor: pointer;
+  background: rgb(228, 228, 228);
+}
+
+.hoverable.reset-button.dark:hover {
+  cursor: pointer;
+  box-shadow: 3px 3px 0px #00000080;
+  background: rgb(51, 47, 56);
+}
+
+.hoverable.dark-theme-button.hover {
+  box-shadow: 3px 3px 0px #00000088;
+  background: rgb(45, 39, 53);
 }

@@ -27,7 +27,6 @@ function getCountMin(prevCounts) {
 }
 
 export function getFlashcards(kanaKind = 'hiragana', difficulty = 0) {
-  console.time('time1')
   const gojuSubset = kanas[kanaKind].filter((x) => x.type === 'gojuuon')
 
   const prevCount = getPreviousCounts(kanaKind)
@@ -56,8 +55,6 @@ export function getFlashcards(kanaKind = 'hiragana', difficulty = 0) {
     const selectedFake = findDifferent(gojuSubset, selectedList)
     selectedList.push(selectedFake)
   })
-
-  console.timeEnd('time1')
   return {
     question: selectedKana,
     answers: getShuffledArr(selectedList),
