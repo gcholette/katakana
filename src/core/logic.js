@@ -49,7 +49,6 @@ export function getFlashcards(kanaKind = 'hiragana', difficulty = 0) {
   const list = kanas[kanaKind]
 
   const gojuSubset = getDifficultySubset(list, difficulty)
-  console.log('subset', gojuSubset)
 
   const prevCount = getPreviousCounts(kanaKind)
   const minCount = getCountMin(prevCount)

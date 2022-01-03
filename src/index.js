@@ -54,8 +54,9 @@ function App() {
   function onSetKind(kind1) {
     setKind(kind1)
     setSelectedKind(kind1)
-    setDifficulty(getDifficulty(kind1))
-    setFlashcard(getFlashcards(kind1, difficulty))
+    const diff = getDifficulty(kind1)
+    setDifficulty(diff)
+    setFlashcard(getFlashcards(kind1, diff))
     setWrongAnswer(false)
   }
 
