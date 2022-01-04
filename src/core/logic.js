@@ -6,9 +6,9 @@ const kanas = { hiragana, katakana }
 const getDifficultySubset = (lst, diff) => {
   switch (diff) {
     case 0:
-      return lst.filter((x, i) => x.type === 'gojuuon' && i < 9)
+      return lst.filter((x, i) => x.type === 'gojuuon' && i < 10)
     case 1:
-      return lst.filter((x, i) => x.type === 'gojuuon' && i < 29)
+      return lst.filter((x, i) => x.type === 'gojuuon' && i < 30)
     case 2:
       return lst.filter((x, i) => x.type === 'gojuuon')
     case 3:
