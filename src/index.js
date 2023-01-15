@@ -1,5 +1,5 @@
 import { h, render } from './resources/libs/preact.js'
-import { useEffect, useState, useRef } from './resources/libs/preact-hooks.js'
+import { useState } from './resources/libs/preact-hooks.js'
 import { answer, getFlashcards } from './core/logic.js'
 import {
   initAppMemory,
@@ -138,4 +138,5 @@ function App() {
     ),
   ])
 }
+
 render(h(App), document.body)
