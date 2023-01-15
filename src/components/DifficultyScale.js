@@ -2,7 +2,7 @@ import { h } from '../resources/libs/preact.js'
 
 export default function DifficultyScale({ difficulty, onRangeChange }) {
   return h('div', { class: 'range-container' }, [
-    h('span', {class: 'range-icon'}, '🌱  '),
+    h('span', {class: 'range-icon', title: 'Easy' }, '🌱  '),
     h('input', {
       class: 'diff-range',
       type: 'range',
@@ -11,6 +11,6 @@ export default function DifficultyScale({ difficulty, onRangeChange }) {
       value: difficulty,
       onChange: onRangeChange,
     }),
-    h('span', {class: 'range-icon'}, '  🌳'),
+    h('span', {class: 'range-icon', title: 'Hard' }, '  🌳'),
   ])
 }

@@ -87,10 +87,12 @@ function App() {
           h(KindButton, {
             onClick: () => onSetKind('hiragana'),
             kind: 'hiragana',
+            title: 'Hiragana'
           }),
           h(KindButton, {
             onClick: () => onSetKind('katakana'),
             kind: 'katakana',
+            title: 'Katakana'
           }),
           h('br'),
           h(DifficultyScale, { difficulty, onRangeChange }),
@@ -123,7 +125,7 @@ function App() {
           h(WinCounter, { kind }),
           h(
             'button',
-            { class: themedClass(`reset-button`), onClick: resetData },
+            { class: themedClass(`reset-button`), onClick: resetData, title: 'Reset score' },
             [h('span', { role: 'img', class: 'reset-btn-icon' }, '💣')]
           ),
         ]),
@@ -132,7 +134,7 @@ function App() {
     h(
       'footer',
       { class: themedClass('license') },
-      h('a', { href: 'https://gcholette.com'}, '© 2022 Gabriel Cholette-Rioux')
+      h('a', { href: 'https://gcholette.com' }, '© 2022 Gabriel Cholette-Rioux')
     ),
   ])
 }

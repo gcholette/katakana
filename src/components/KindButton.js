@@ -5,6 +5,7 @@ export default function KindButton(props) {
   return h(
     'button',
     {
+      ...props,
       class: themedClass(`kind-button ${props.kind}`),
       onClick: props.onClick,
     },
