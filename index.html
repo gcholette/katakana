@@ -8,7 +8,8 @@
     <meta
       name="image"
       property="og:image"
-      content="https://raw.githubusercontent.com/gcholette/gcholette.com/master/public/app_img_katakana.PNG"/>
+      content="https://raw.githubusercontent.com/gcholette/gcholette.com/master/public/app_img_katakana.PNG"
+    />
     <meta name="keywords" content="katakana, flash cards, learn japanese" />
     <meta name="author" content="Gabriel Cholette-Rioux" />
     <meta
@@ -22,5 +23,13 @@
   </head>
   <body>
     <script type="module" src="./src/index.js" async></script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GCVTKWKX0E"></script>
+    <script>
+      window.dataLayer = window.dataLayer || []
+      function gtag() {dataLayer.push(arguments)}
+      gtag('js', new Date())
+      gtag('config', 'G-GCVTKWKX0E')
+    </script>
   </body>
 </html>
