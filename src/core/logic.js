@@ -69,13 +69,14 @@ export function getFlashcards(kanaKind = 'hiragana', difficulty = 0) {
   const selectedKana = gojuSubset[randIndex]
   selectedList.push(selectedKana)
 
-  const n = 3
+  const n = 6
   const arr = [...new Array(n - 1)].map((x, i) => i)
 
   arr.forEach((x) => {
     const selectedFake = findDifferent(gojuSubset, selectedList)
     selectedList.push(selectedFake)
   })
+
   return {
     question: selectedKana,
     answers: getShuffledArr(selectedList),
