@@ -296,6 +296,11 @@ h1 {
   background: rgb(35, 31, 41);
 }
 
+.card-body.settings-body {
+  height: calc(22.7em + 2vh);
+  border-radius: 25px;
+}
+
 hr {
   border: black 0px solid;
   background: #0000001c;
@@ -344,6 +349,16 @@ hr {
 }
 
 .reset-btn-icon {
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  filter: brightness(0);
+  opacity: 0.3;
+  width: 32px;
+  height: 32px;
+}
+
+.settings-btn {
   position: absolute;
   top: 14px;
   left: 16px;

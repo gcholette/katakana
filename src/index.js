@@ -14,11 +14,11 @@ import {
   changeDifficulty,
   getDifficulty,
 } from './core/storage.js'
-import WinCounter from './components/WinCounter.js'
-import AnswerButton from './components/AnswerButton.js'
 import KindButton from './components/KindButton.js'
 import { themedClass } from './core/theme.js'
 import DifficultyScale from './components/DifficultyScale.js'
+import Questions from './views/Questions.js'
+import Settings from './views/Settings.js'
 
 initAppMemory()
 
@@ -27,6 +27,7 @@ function App() {
   const [kind, setKind] = useState(getSelectedKind())
   const [difficulty, setDifficulty] = useState(getDifficulty(kind))
   const [flashcard, setFlashcard] = useState(getFlashcards(kind, difficulty))
+  const [activeView, setActiveView] = useState('questions')
   const [wrongAnswer, setWrongAnswer] = useState(false)
   const { question, answers } = flashcard
   const [failedAnswers, setFailedAnswers] = useState([])
@@ -49,6 +50,13 @@ function App() {
       }
       setWrongAnswer(true)
     }
+  }
+
+  const onSettingsToggle = () => {
+    if (activeView === 'questions') {
+      return setActiveView('settings')
+    }
+    return setActiveView('questions')
   }
 
   function onSetKind(kind1) {
@@ -97,45 +105,24 @@ function App() {
           h('br'),
           h(DifficultyScale, { difficulty, onRangeChange }),
           h(
+            'img',
+            {
+              src: "/src/resources/svg/gear.svg",
+              title: 'Settings',
+              class: 'settings-btn',
+              onClick: onSettingsToggle
+            }
+          ),
+          h(
             'span',
             { class: themedClass('moon-btn'), onClick: onDarkThemeToggle },
             isDarkMode() ? '🌙' : '☀️'
           ),
         ])
       ),
-      h('div', { class: themedClass('card ' + kind) }, [
-        h(
-          'div',
-          {
-            class: themedClass(
-              'card-header ' + kind + ' ' + (wrongAnswer ? 'wrong-answer' : '')
-            ),
-          },
-          [
-            h('h1', null, question?.kana),
-            h('img',
-              {
-                src: "/src/resources/svg/rotate.svg",
-                title: 'Reset score',
-                class: 'reset-btn-icon',
-                onClick: resetData,
-              })
-          ]
-        ),
-        h('div', { class: themedClass('card-body ' + kind) }, [
-          h('div', { class: 'roumaji-answer-wrapper' },
-            ...answers.map((x) =>
-              h(AnswerButton, {
-                onClick: onAnswerClick,
-                answer: x,
-                failed: failedAnswers.some((y) => y.roumaji === x.roumaji),
-              })
-            )
-          ),
-          h('hr', { class: themedClass('') }),
-          h(WinCounter, { kind }),
-        ]),
-      ]),
+      activeView === 'questions'
+        ? h(Questions, { wrongAnswer, question, answers, failedAnswers, kind, resetData, onAnswerClick })
+        : h(Settings)
     ]),
     h(
       'footer',
