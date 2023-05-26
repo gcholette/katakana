@@ -14,12 +14,12 @@ import {
   changeDifficulty,
   getDifficulty,
 } from './core/storage.js'
-import WinCounter from './components/WinCounter.js'
-import AnswerButton from './components/AnswerButton.js'
 import KindButton from './components/KindButton.js'
 import { themedClass } from './core/theme.js'
 import DifficultyScale from './components/DifficultyScale.js'
 import GridKanas from './components/GridKanas.js'
+import Questions from './views/Questions.js'
+import Settings from './views/Settings.js'
 
 initAppMemory()
 
@@ -28,6 +28,7 @@ function App() {
   const [kind, setKind] = useState(getSelectedKind())
   const [difficulty, setDifficulty] = useState(getDifficulty(kind))
   const [flashcard, setFlashcard] = useState(getFlashcards(kind, difficulty))
+  const [activeView, setActiveView] = useState('questions')
   const [wrongAnswer, setWrongAnswer] = useState(false)
   const { question, answers } = flashcard
   const [failedAnswers, setFailedAnswers] = useState([])
@@ -51,6 +52,13 @@ function App() {
       }
       setWrongAnswer(true)
     }
+  }
+
+  const onSettingsToggle = () => {
+    if (activeView === 'questions') {
+      return setActiveView('settings')
+    }
+    return setActiveView('questions')
   }
 
   function onSetKind(kind1) {
@@ -103,6 +111,15 @@ function App() {
           h('br'),
           h(DifficultyScale, { difficulty, onRangeChange, onClickKanas }),
           h(
+            'img',
+            {
+              src: "/src/resources/svg/gear.svg",
+              title: 'Settings',
+              class: 'settings-btn',
+              onClick: onSettingsToggle
+            }
+          ),
+          h(
             'span',
             { class: themedClass('moon-btn'), onClick: onDarkThemeToggle },
             isDarkMode() ? '🌙' : '☀️'
@@ -152,6 +169,9 @@ function App() {
           h(WinCounter, { kind }),
         ]),
       ]),
+      activeView === 'questions'
+        ? h(Questions, { wrongAnswer, question, answers, failedAnswers, kind, resetData, onAnswerClick })
+        : h(Settings)
     ]),
     h(
       'footer',
