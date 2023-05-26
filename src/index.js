@@ -19,6 +19,7 @@ import AnswerButton from './components/AnswerButton.js'
 import KindButton from './components/KindButton.js'
 import { themedClass } from './core/theme.js'
 import DifficultyScale from './components/DifficultyScale.js'
+import GridSettings from './components/GridSettings.js'
 
 initAppMemory()
 
@@ -30,6 +31,7 @@ function App() {
   const [wrongAnswer, setWrongAnswer] = useState(false)
   const { question, answers } = flashcard
   const [failedAnswers, setFailedAnswers] = useState([])
+  const [displaySettings, setDisplaySettings] = useState(false)
 
   const onAnswerClick = (answer1) => {
     const result = answer(question, answer1)
@@ -64,6 +66,10 @@ function App() {
     resetKindData(kind)
     setWrongAnswer(false)
     setFlashcard(getFlashcards(kind, difficulty))
+  }
+
+  function onClickSettings() {
+    setDisplaySettings(!displaySettings)
   }
 
   function onDarkThemeToggle() {
@@ -103,6 +109,16 @@ function App() {
           ),
         ])
       ),
+      h(
+        'div',
+        { class: themedClass('settings-card' + ' ' + (displaySettings ? '' : 'hide')) },
+        h('div', { class: themedClass('settings-card-body') }, [
+          h(GridSettings, {
+            kind,
+            difficulty
+          }),
+        ])
+      ),
       h('div', { class: themedClass('card ' + kind) }, [
         h(
           'div',
@@ -119,7 +135,14 @@ function App() {
                 title: 'Reset score',
                 class: 'reset-btn-icon',
                 onClick: resetData,
-              })
+              }),
+            h('img', 
+              {
+                src: "/src/resources/svg/gear.svg",
+                class: 'settings-btn',
+                title: 'Settings',
+                onClick: onClickSettings,
+              }),
           ]
         ),
         h('div', { class: themedClass('card-body ' + kind) }, [

@@ -3,7 +3,7 @@ import { getShuffledArr, getPreviousCounts } from './storage.js'
 
 const kanas = { hiragana, katakana }
 
-const getDifficultySubset = (lst, diff) => {
+export const getDifficultySubset = (lst, diff) => {
   switch (diff) {
     case 0:
       return lst.filter((x, i) => x.type === 'gojuuon' && i < 10)

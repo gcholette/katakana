@@ -151,6 +151,15 @@ a {
   opacity: 0.3;
 }
 
+.settings-btn {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  filter: brightness(0);
+  opacity: 0.3;
+  width: 32px;
+  height: 32px;
+}
 
 hr.dark {
   background: #f5f5f52b;
@@ -198,6 +207,68 @@ hr.dark {
 
 h1 {
   margin: 0;
+}
+
+.settings-card {
+  max-width: 400px;
+  max-height: 207px;
+  margin: 0 auto;
+  border-radius: 25px;
+  box-shadow: 8px 11px 0px #0000002e;
+  margin-bottom: 1.5em;
+  margin-top: 1em;
+  overflow: auto;
+  transition: max-height 0.3s ease;
+  -ms-overflow-style: none;
+  scrollbar-width: none; 
+}
+.settings-card::-webkit-scrollbar {
+  display: none; 
+}
+
+.settings-card-body {
+  background: rgb(243, 243, 243);
+  border-radius: 25px;
+  padding: 1em;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  transition: background 0.5s ease, color 0.5s ease;
+  position: relative;
+}
+
+.settings-card.hide {
+  overflow: hidden;
+  max-height: 0;
+}
+
+.settings-card-body.dark {
+  background: rgb(37, 32, 43);
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 10px;
+}
+
+.settings-grid-item {
+  border-radius: 5px;
+  flex-basis: calc(100% / 4);
+  border: 0;
+  box-shadow: 3px 3px 0px #0000002e;
+  background: rgb(233, 233, 233);
+  padding-left: 1em;
+  padding-right: 1em;
+  transition: box-shadow 0.8s ease, background 0.5s ease, color 0.5s ease;
+}
+
+.settings-grid-item.dark {
+  box-shadow: 3px 3px 0px #00000080;
+}
+
+.settings-grid-item.dark {
+  background: rgb(81, 76, 88);
+  color: rgb(219, 219, 219);
 }
 
 .top-card {
