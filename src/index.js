@@ -19,7 +19,7 @@ import AnswerButton from './components/AnswerButton.js'
 import KindButton from './components/KindButton.js'
 import { themedClass } from './core/theme.js'
 import DifficultyScale from './components/DifficultyScale.js'
-import GridSettings from './components/GridSettings.js'
+import GridKanas from './components/GridKanas.js'
 
 initAppMemory()
 
@@ -31,7 +31,7 @@ function App() {
   const [wrongAnswer, setWrongAnswer] = useState(false)
   const { question, answers } = flashcard
   const [failedAnswers, setFailedAnswers] = useState([])
-  const [displaySettings, setDisplaySettings] = useState(false)
+  const [displayKanas, setDisplayKanas] = useState(false)
 
   const onAnswerClick = (answer1) => {
     const result = answer(question, answer1)
@@ -68,8 +68,8 @@ function App() {
     setFlashcard(getFlashcards(kind, difficulty))
   }
 
-  function onClickSettings() {
-    setDisplaySettings(!displaySettings)
+  function onClickKanas() {
+    setDisplayKanas(!displayKanas)
   }
 
   function onDarkThemeToggle() {
@@ -101,7 +101,7 @@ function App() {
             title: 'Katakana'
           }),
           h('br'),
-          h(DifficultyScale, { difficulty, onRangeChange }),
+          h(DifficultyScale, { difficulty, onRangeChange, onClickKanas }),
           h(
             'span',
             { class: themedClass('moon-btn'), onClick: onDarkThemeToggle },
@@ -111,9 +111,9 @@ function App() {
       ),
       h(
         'div',
-        { class: themedClass('settings-card' + ' ' + (displaySettings ? '' : 'hide')) },
-        h('div', { class: themedClass('settings-card-body') }, [
-          h(GridSettings, {
+        { class: themedClass('kanas-card' + ' ' + (displayKanas ? '' : 'hide')) },
+        h('div', { class: themedClass('kanas-card-body') }, [
+          h(GridKanas, {
             kind,
             difficulty
           }),
@@ -135,13 +135,6 @@ function App() {
                 title: 'Reset score',
                 class: 'reset-btn-icon',
                 onClick: resetData,
-              }),
-            h('img', 
-              {
-                src: "/src/resources/svg/gear.svg",
-                class: 'settings-btn',
-                title: 'Settings',
-                onClick: onClickSettings,
               }),
           ]
         ),

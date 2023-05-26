@@ -151,14 +151,11 @@ a {
   opacity: 0.3;
 }
 
-.settings-btn {
-  position: absolute;
-  top: 14px;
-  right: 16px;
+.kanas-btn {
   filter: brightness(0);
   opacity: 0.3;
-  width: 32px;
-  height: 32px;
+  width: 22px;
+  height: 22px;
 }
 
 hr.dark {
@@ -209,7 +206,7 @@ h1 {
   margin: 0;
 }
 
-.settings-card {
+.kanas-card {
   max-width: 400px;
   max-height: 207px;
   margin: 0 auto;
@@ -222,11 +219,19 @@ h1 {
   -ms-overflow-style: none;
   scrollbar-width: none; 
 }
-.settings-card::-webkit-scrollbar {
+
+.kanas-card.hide {
+  overflow: hidden;
+  max-height: 0;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.kanas-card::-webkit-scrollbar {
   display: none; 
 }
 
-.settings-card-body {
+.kanas-card-body {
   background: rgb(243, 243, 243);
   border-radius: 25px;
   padding: 1em;
@@ -236,22 +241,17 @@ h1 {
   position: relative;
 }
 
-.settings-card.hide {
-  overflow: hidden;
-  max-height: 0;
-}
-
-.settings-card-body.dark {
+.kanas-card-body.dark {
   background: rgb(37, 32, 43);
 }
 
-.settings-grid {
+.kanas-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-gap: 10px;
 }
 
-.settings-grid-item {
+.kanas-grid-item {
   border-radius: 5px;
   flex-basis: calc(100% / 4);
   border: 0;
@@ -262,11 +262,11 @@ h1 {
   transition: box-shadow 0.8s ease, background 0.5s ease, color 0.5s ease;
 }
 
-.settings-grid-item.dark {
+.kanas-grid-item.dark {
   box-shadow: 3px 3px 0px #00000080;
 }
 
-.settings-grid-item.dark {
+.kanas-grid-item.dark {
   background: rgb(81, 76, 88);
   color: rgb(219, 219, 219);
 }
@@ -426,6 +426,9 @@ hr {
 
 .range-container {
   margin-bottom: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .diff-range {
