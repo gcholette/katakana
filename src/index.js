@@ -17,6 +17,7 @@ import {
 import KindButton from './components/KindButton.js'
 import { themedClass } from './core/theme.js'
 import DifficultyScale from './components/DifficultyScale.js'
+import GridKanas from './components/GridKanas.js'
 import Questions from './views/Questions.js'
 import Settings from './views/Settings.js'
 
@@ -31,6 +32,7 @@ function App() {
   const [wrongAnswer, setWrongAnswer] = useState(false)
   const { question, answers } = flashcard
   const [failedAnswers, setFailedAnswers] = useState([])
+  const [displayKanas, setDisplayKanas] = useState(false)
 
   const onAnswerClick = (answer1) => {
     const result = answer(question, answer1)
@@ -74,6 +76,10 @@ function App() {
     setFlashcard(getFlashcards(kind, difficulty))
   }
 
+  function onClickKanas() {
+    setDisplayKanas(!displayKanas)
+  }
+
   function onDarkThemeToggle() {
     setDarkMode(!isDarkMode())
     forceRender({})
@@ -103,7 +109,7 @@ function App() {
             title: 'Katakana'
           }),
           h('br'),
-          h(DifficultyScale, { difficulty, onRangeChange }),
+          h(DifficultyScale, { difficulty, onRangeChange, onClickKanas }),
           h(
             'img',
             {
@@ -118,6 +124,16 @@ function App() {
             { class: themedClass('moon-btn'), onClick: onDarkThemeToggle },
             isDarkMode() ? '🌙' : '☀️'
           ),
+        ])
+      ),
+      h(
+        'div',
+        { class: themedClass('kanas-card' + ' ' + (displayKanas ? '' : 'hide')) },
+        h('div', { class: themedClass('kanas-card-body') }, [
+          h(GridKanas, {
+            kind,
+            difficulty
+          }),
         ])
       ),
       activeView === 'questions'
